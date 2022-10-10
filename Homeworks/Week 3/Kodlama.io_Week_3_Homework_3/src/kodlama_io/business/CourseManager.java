@@ -19,21 +19,25 @@ public class CourseManager {
     }
 
     public void add(Course course) {
-        if (!isAvailable(course) || course.getPrice() < 0) {
-            for (ILogger logger : loggers) {
-                logger.log("Course can not be added to the database!");
-            }
-        } else {
+        if (isAvailable(course)) {
             courseDao.add(course);
             courses.add(course);
             for (ILogger logger : loggers) {
                 logger.log("Course added.");
+            }
+
+        } else {
+            for (ILogger logger : loggers) {
+                logger.log("Course can not be added to the database!");
             }
         }
     }
 
     boolean isAvailable(Course course) {
         boolean isAvailable = true;
+        if (course.getPrice() < 0) {
+            return false;
+        }
         for (Course course1 : courses) {
             if (course1.equals(course)) {
                 isAvailable = false;
