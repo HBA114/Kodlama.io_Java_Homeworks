@@ -18,14 +18,7 @@ public class TeacherManager {
     }
 
     public void add(Teacher teacher) {
-        boolean isTeacherInDatabase = false;
-        for (Teacher teacher1 : teachers){
-            if (teacher1.equals(teacher)){
-                isTeacherInDatabase = true;
-                break;
-            }
-        }
-        if (!isTeacherInDatabase) {
+        if (isAvailable(teacher)) {
             teacherDao.add(teacher);
             teachers.add(teacher);
             for (ILogger logger : loggers) {
@@ -36,5 +29,16 @@ public class TeacherManager {
                 logger.log("Teacher already in database!");
             }
         }
+    }
+
+    boolean isAvailable(Teacher teacher) {
+        boolean isAvailable = true;
+        for (Teacher teacher1 : teachers){
+            if (teacher1.equals(teacher)){
+                isAvailable = false;
+                break;
+            }
+        }
+        return isAvailable;
     }
 }

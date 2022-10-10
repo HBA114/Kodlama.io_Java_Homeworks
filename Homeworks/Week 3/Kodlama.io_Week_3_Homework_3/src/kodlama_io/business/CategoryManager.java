@@ -18,14 +18,7 @@ public class CategoryManager {
     }
 
     public void add(Category category) {
-        boolean isCategoryInDatabase = false;
-        for (Category category1 : categories) {
-            if (category1.equals(category)) {
-                isCategoryInDatabase = true;
-                break;
-            }
-        }
-        if (!isCategoryInDatabase) {
+        if (isAvailable(category)) {
             categoryDao.add(category);
             categories.add(category);
             for (ILogger logger : loggers) {
@@ -36,5 +29,16 @@ public class CategoryManager {
                 logger.log("Category already in database!");
             }
         }
+    }
+
+    boolean isAvailable(Category category) {
+        boolean isAvailable = true;
+        for (Category category1 : categories) {
+            if (category1.equals(category)) {
+                isAvailable = false;
+                break;
+            }
+        }
+        return isAvailable;
     }
 }

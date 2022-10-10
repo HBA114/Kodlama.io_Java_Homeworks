@@ -13,8 +13,6 @@ import kodlama_io.entities.Category;
 import kodlama_io.entities.Course;
 import kodlama_io.entities.Teacher;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) throws Exception {
         ILogger[] loggers = new ILogger[]{

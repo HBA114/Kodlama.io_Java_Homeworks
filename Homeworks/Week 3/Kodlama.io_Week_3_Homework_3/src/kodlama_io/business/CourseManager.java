@@ -19,14 +19,7 @@ public class CourseManager {
     }
 
     public void add(Course course) {
-        boolean isCourseInDatabase = false;
-        for (Course course1 : courses){
-            if (course1.equals(course)){
-                isCourseInDatabase = true;
-                break;
-            }
-        }
-        if (isCourseInDatabase || course.getPrice() < 0) {
+        if (!isAvailable(course) || course.getPrice() < 0) {
             for (ILogger logger : loggers) {
                 logger.log("Course can not be added to the database!");
             }
@@ -37,5 +30,16 @@ public class CourseManager {
                 logger.log("Course added.");
             }
         }
+    }
+
+    boolean isAvailable(Course course) {
+        boolean isAvailable = true;
+        for (Course course1 : courses) {
+            if (course1.equals(course)) {
+                isAvailable = false;
+                break;
+            }
+        }
+        return isAvailable;
     }
 }
